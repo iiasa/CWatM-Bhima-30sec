@@ -41,28 +41,6 @@ colorapp = {"background": "#ffffff", "text": "#082255", "text2": "#082255"}
 downloadclick = [None]
 compare_years = 30
 
-"""
-def geo_id(dd, dd_array):
-     search for nearest decimal degree in an array of decimal degrees and return the index.
-     np.argmin returns the indices of minium value along an axis.
-     so subtract dd from all values in dd_array, take absolute value and find index of minium.
-
-   geo_idx = (np.abs(dd_array - dd)).argmin()
-   return geo_idx
-"""
-"""
-def createtext(ts11,ts12,mnq1,mnq2,trigger1,trigger2,trigger3,para,x1,y1):
-
-    text1 = dbc.Container(
-        [
-            dcc.Markdown(". "),
-            dcc.Markdown("Standort:    Lat: " + str(xydata[trigger1][6]) + " Lon: " + str(xydata[trigger1][7])),
-        ],
-        style={'fontSize': 15, 'textAlign': 'left'}
-    )
-    return text1
-#------------------------------------------------------
-"""
 #--------------------------------------
 
 def createscatter(yy):
@@ -114,30 +92,15 @@ def createscatter(yy):
     #fig2.update_yaxes(range=[yy.min(), yy.max()])
     fig.update_yaxes(range=scale[0])
 
-
-    #fig.update_layout(legend=dict(x= 0, y=1.0),
-    #                  yaxis_title="Avg. Temperature [°C]")
-    """
     fig.update_layout(
         plot_bgcolor=colorapp["background"],
         paper_bgcolor=colorapp["background"],
-        legend=dict(
-            orientation="h",
-            yanchor="top",
-            y=-0.3,
-            xanchor="left",
-            x=0.0
-        )
+        height = 422,
+        width = 500,
+        legend=dict(x=0, y=1.0),
     )
-    """
-
-
 
     return fig
-
-
-
-
 
 # -------------------------------------------------
 
@@ -160,7 +123,7 @@ zz = ub.t1.to_numpy()
 no_district = len(zz)
 #-------------------------------------------
 
-rcp = ["rcp45", "rcp85"]
+rcp = ["RCP 4.5", "RCP 8.5"]
 gcm = ["All","GFDL-ESM2M","MIROC5_ISIMIP", "MPI_REMO2009_ISIMIP3"]
 analysis = ["Avg.Temperature","Tmax Days ≥38°C","Tmax Days ≥40°C","Avg. Precipitation","P daily <0.01mm","P daily ≥20mm","P daily ≥50mm","P daily ≥100mm"]
 scale = [[22,32],[0,140],[0,100],[0,4000],[0,366],[0,80],[0,30],[0,10]]
@@ -253,7 +216,18 @@ jumbotron = dbc.Container(
                     
                     **FUSE: Belmont Forum Collaborative Research: Food-water-energy for Urban Sustainable Environments**
                     
-                    FUSE (Food-water-energy for Urban Sustainable Environments) is a transdisciplinary 3-year research project (2018-2021) involving the Food-Water-Energy Nexus (FWE) in Pune (India). The project will develop a long-term systems model that can be used to identify viable paths to sustainability. It brings together scientists, engineers, economists, and stakeholder engagement experts from Stanford University in California, USA, IIASA (International Institute for Applied Systems Analysis) in Laxenburg, Austria, UFZ (Helmholtz Centre for Environmental Research) in Leipzig, Germany, and ÖFSE (Austrian Foundation for Development Research) in Vienna, Austria. The project is a not-for-profit research effort and is part of the Sustainable Urbanisation Global Initiative of JPI Urban Europe and the Belmont Forum. Each of the national teams is supported individually by its own national science funding agency.
+                    FUSE (Food-water-energy for Urban Sustainable Environments) is a transdisciplinary 3-year research project (2018-2021) involving the Food-Water-Energy Nexus (FWE) in Pune (India).
+                     
+                    The project will develop a long-term systems model that can be used to identify viable paths to sustainability.
+                    It brings together scientists, engineers, economists, and stakeholder engagement experts from
+                    
+                    - Stanford University in California, USA, 
+                    - IIASA (International Institute for Applied Systems Analysis) in Laxenburg, Austria, 
+                    - UFZ (Helmholtz Centre for Environmental Research) in Leipzig, Germany, 
+                    - ÖFSE (Austrian Foundation for Development Research) in Vienna, Austria. 
+                    
+                    The project is a not-for-profit research effort and is part of the Sustainable Urbanisation Global Initiative of JPI Urban Europe and the Belmont Forum. 
+
                 '''),
         html.Hr(),
         dcc.Markdown('''
@@ -328,29 +302,46 @@ drop3_dbc = dbc.Form(
     ],
 )
 
-slider_dbc = dbc.Form([
+radio_dbc = dbc.Form([
                 html.P(
-                    id="slider-text",
+                    id="radio-text",
                     children="",
                     style={'clear': 'both'}
                 ),
-                dcc.Slider(
-                    id="year-slider",
-                    min=2020,
-                    max=2055,
-                    step = 35,
-                    value=2020,
-
-                    marks={
-                        str(2020+year): {
-                            "label": str(2020+year),
-                            "style": {"color": "#082255"},
-                        }
-                        for year in  range(0, 36, 35)
+            dcc.RadioItems(
+                [
+                    {
+                        "label": html.Div(['1990-2020  --'], style={'font-size': 15}),
+                        "value": "1990-2020",
                     },
-                    tooltip={"placement": "bottom", "always_visible": True}
-                ),
+                    {
+                        "label": html.Div(['2025-2055'], style={'font-size': 15}),
+                        "value": "2025-2055",
+                    },
+                ],
+                value='1990-2020',
+                inline = True,
+                id="year-radio",
+
+            )
 ])
+
+
+
+
+
+
+"""
+
+                    id="year-radio",
+
+
+                    options=['1990-2020', '2025-2055'],
+                    value='1990-2020',
+                    inline=False,
+                )
+"""
+
 
 map_dbc = dbc.Form([
         dcc.Graph(
@@ -402,10 +393,10 @@ app.layout = dbc.Container([
 
                 dbc.Col(
                     [
-                        dbc.Row(drop1_dbc),
                         dbc.Row(drop2_dbc),
+                        dbc.Row(drop1_dbc),
                         dbc.Row(drop3_dbc),
-                        dbc.Row(slider_dbc)
+                        dbc.Row(radio_dbc)
                     ],width=3),
                 dbc.Col(html.H5(" "),width = 2),
             ],
@@ -460,8 +451,6 @@ def update_scatter1(input_value,d1value,d2value,d3value):
     RCPindex = RCPS.index(d2value)
     figindex = figtype.index(d3value)
 
-    text = str(GCMindex)
-
     if input_value is None:
         inds = 40
     else:
@@ -471,19 +460,30 @@ def update_scatter1(input_value,d1value,d2value,d3value):
     trigger[1] = GCMindex
     trigger[2] = RCPindex
     trigger[4] = inds
-    text = str(GCMindex) + str(RCPindex) + str(figindex) + " " + str(inds)+ " " + districts[inds]
+
+    #text = rcp[RCPindex] + " - " + gcm[GCMindex] + " - " + analysis[figindex]
+    #text = str(GCMindex) + str(RCPindex) + str(figindex) + " " + str(inds)+ " " + districts[inds]
+
+    text = dbc.Container(
+        [
+            dcc.Markdown(". "),
+            dcc.Markdown("Tehsil: " + districts[inds]),
+            dcc.Markdown("RCP: " + rcp[RCPindex]),
+            dcc.Markdown("GCM: "+ gcm[GCMindex]),
+            dcc.Markdown("Variable: " + analysis[figindex]),
+        ],
+        style={'fontSize': 15, 'textAlign': 'left'}
+    )
 
     yy = yyy[trigger[0], trigger[1], trigger[2], :, trigger[4]]
     fig = createscatter(yy)
-    #fig,text1,text2 = createscatter(tss,admin1,admin2,adavg1,adavg2,daumin1,daumin2,dauavg1,dauavg2, slider,index,GCMindex,figindex,para,x1,y1)
-    #return fig,text1,text2
 
     bar1 = fig.data[0]
     bar2 = fig.data[1]
     bar3 = fig.data[2]
 
     # districts
-    fig.layout.title = 'District: ' + districts[inds]
+    fig.layout.title = 'Tehsil: ' + districts[inds]
 
     # c = list(bar.marker.color)
     # with fig2.batch_update():
@@ -507,26 +507,14 @@ def update_scatter1(input_value,d1value,d2value,d3value):
     bar1.marker.color = colorbar
 
     fig.update_yaxes(range=scale[trigger[0]])
-
-    fig.update_layout(legend=dict(x=0, y=1.0),
-                       yaxis_title="Avg. Temperature [°C]")
-
-    fig.update_yaxes(range=scale[trigger[0]])
-    fig.update_layout(yaxis_title=analysis[trigger[0]] +" [" + unit[trigger[0]] + "]")
-
-    """
     fig.update_layout(
         plot_bgcolor=colorapp["background"],
         paper_bgcolor=colorapp["background"],
-        legend=dict(
-            orientation="h",
-            yanchor="top",
-            y=-0.3,
-            xanchor="left",
-            x=0.0
-        )
+        height = 422,
+        width = 500,
+        legend=dict(x=0, y=1.0),
+        yaxis_title=analysis[trigger[0]] +" [" + unit[trigger[0]] + "]",
     )
-    """
 
     return fig,text
 
@@ -538,7 +526,7 @@ def update_scatter1(input_value,d1value,d2value,d3value):
     Input('drop1', 'value'),
     Input('drop2', 'value'),
     Input('drop3', 'value'),
-    [Input("year-slider", "value")],
+    [Input("year-radio", "value")],
     [State("bhima-choropleth", "figure")],
 )
 def display_map(d1value,d2value,d3value,year,figure):
@@ -550,7 +538,7 @@ def display_map(d1value,d2value,d3value,year,figure):
     q1 = np.mean(yyy[trigger[0],trigger[1],trigger[2],0:30,:],axis=0)
     q2 = np.mean(yyy[trigger[0],trigger[1],trigger[2],36:66,:],axis=0)
 
-    if year == 2020:
+    if year == "1990-2020":
         zz = q1
     else:
         zz = q2
@@ -570,8 +558,8 @@ def display_map(d1value,d2value,d3value,year,figure):
 
     fig.update_layout(mapbox_accesstoken=mapbox_access_token,
                    mapbox_style= "mapbox://styles/bupe/cjw7g6cax0hem1cqy9vc9vln4",
-                   mapbox_center={"lat": 18.0, "lon": 75.0},
-                   mapbox_pitch=0, mapbox_zoom=6.0,
+                   mapbox_center={"lat": 18.0, "lon": 74.8},
+                   mapbox_pitch=0, mapbox_zoom=6.6,
                    margin={"r": 0, "t": 0, "l": 0, "b": 0},
                    height= 400,
                    autosize=False,
@@ -589,7 +577,7 @@ def display_map(d1value,d2value,d3value,year,figure):
 )
 def downfunc(n_clicks):
     return dcc.send_file(
-        "./assets/bhima_climate_docu.pdf"
+        "./assets/fuse_bhima_climate_docu.pdf"
     )
 # ------------------------------------
 
