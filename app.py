@@ -12,7 +12,6 @@ import numpy as np
 import json
 
 import pandas as pd
-import netCDF4
 import xarray as xr
 from collections import OrderedDict
 

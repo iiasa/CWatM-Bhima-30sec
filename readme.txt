@@ -51,3 +51,7 @@ In the directory should be:
 
     cd P:\watmodel\dashboards\fuse_bhima
     virtualenv venv
+
+7 ) Test app.py
+
+P:/watmodel/dashboards/fuse_bhima/venv/Scripts/python app.py
