@@ -8,7 +8,7 @@
 
 ## Overview 
 
-###Fuse Bhima
+### Fuse Bhima
 
 is a transdisciplinary 3-year research project (2018-2021) involving the Food-Water-Energy Nexus (FWE) in Pune (India).
 
@@ -22,14 +22,14 @@ It brings together scientists, engineers, economists, and stakeholder engagement
 
 ### Climate Bhima web-tool
 
-The webtool on https://fuse-bhima-climate.herokuapp.com/ shows the climate variability
-for two RCPs (RCP 4.5 and RCP 8.5) and for three General Circulation Models (GCMs) .
-For different dicstricts and tehsils the change of climate variables can be shown between 1990-2020 and 2025-2055.
+The webtool on https://fuse-bhima-climate.herokuapp.com/ shows the climate change variability and uncertainty for the upper Bhima basin.
+The tool holds the data for RCPs 4.5 and 8.5, including three General Circulation Models (GCMs) and an average of the two RCPs and three GCMs.
+For different dicstricts and tehsils the change of climate variables are displayed between 1990-2020 and 2025-2055.
 
 For temperature the change in average temperature but also the change in numbers of days with max temperature >= 38 deg C or >= 40 deg C are shown.
-For precipitation the change in average precipitation but also the change in numbers of days with no rain or days with heavy rain >=20mm, >=50mm, >=100mm are shown.
+For precipitation the change in average precipitation and the change in numbers of days with no rain or days with heavy rain >=20mm, >=50mm, >=100mm are shown.
 
-For a web application we are limited by the memory used to show results in time. 
+For a web application we are limited by the memory used to load results in time. 
 Therefore the bias-corrected GCMs GFDL-ESM2M, MIROC5, MPI_REMO200 are a selection from 10 different climate model runs.
 
 ## Readme
