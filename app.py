@@ -216,15 +216,17 @@ jumbotron = dbc.Container(
                     
                     **FUSE: Belmont Forum Collaborative Research: Food-water-energy for Urban Sustainable Environments**
                     
-                    FUSE (Food-water-energy for Urban Sustainable Environments) is a transdisciplinary 3-year research project (2018-2021) involving the Food-Water-Energy Nexus (FWE) in Pune (India).
+                    [FUSE (Food-water-energy for Urban Sustainable Environments)](https://fuse.stanford.edu/) is a transdisciplinary 3-year research project (2018-2021) involving the Food-Water-Energy Nexus (FWE) in Pune (India).
                      
                     The project will develop a long-term systems model that can be used to identify viable paths to sustainability.
                     It brings together scientists, engineers, economists, and stakeholder engagement experts from
                     
-                    - Stanford University in California, USA, 
-                    - IIASA (International Institute for Applied Systems Analysis) in Laxenburg, Austria, 
-                    - UFZ (Helmholtz Centre for Environmental Research) in Leipzig, Germany, 
-                    - ÖFSE (Austrian Foundation for Development Research) in Vienna, Austria. 
+                    - [Stanford University in California, USA](https://www.stanford.edu/) 
+                    - [IIASA (International Institute for Applied Systems Analysis) in Laxenburg, Austria](https://www.iiasa.ac.at/) 
+                    - [UFZ (Helmholtz Centre for Environmental Research) in Leipzig, Germany](https://www.ufz.de/) 
+                    - [ÖFSE (Austrian Foundation for Development Research) in Vienna, Austria](https://www.oefse.at/) 
+                    
+                    
                     
                     The project is a not-for-profit research effort and is part of the Sustainable Urbanisation Global Initiative of JPI Urban Europe and the Belmont Forum. 
 
@@ -245,7 +247,7 @@ drop1_dbc = dbc.Form([
                 dcc.Dropdown(
                     id = "drop1",
                     options = [
-                        {"label": "GCM: All", "value": "All"},
+                        {"label": "GCM: All RCPs + GCMs", "value": "All"},
                         {"label": "GCM: GFDL-ESM2M", "value": "GFDL"},
                         {"label": "GCM: MIROC5_ISIMIP", "value": "MIROC5"},
                         {"label": "GCM: MPI_REMO2009_ISIMIP3", "value": "MPI"},
@@ -527,9 +529,9 @@ def update_scatter1(input_value,d1value,d2value,d3value):
     Input('drop2', 'value'),
     Input('drop3', 'value'),
     [Input("year-radio", "value")],
-    [State("bhima-choropleth", "figure")],
+
 )
-def display_map(d1value,d2value,d3value,year,figure):
+def display_map(d1value,d2value,d3value,year):
 
     trigger[0] = figtype.index(d3value)
     trigger[1] = GCMS.index(d1value)
@@ -568,6 +570,22 @@ def display_map(d1value,d2value,d3value,year,figure):
                    )
 
     return fig
+#------------------------------
+"""
+# if all rcp and GCM set RCP to 4.5
+@app.callback(
+    Output('drop2', 'value'),
+    Input('drop1', 'value'),
+    [State('drop2', 'value')],
+)
+def change_rcp(d1value,d2value):
+    gcm = GCMS.index(d1value)
+    rcp = RCPS[0]
+    if gcm == 0:
+        return rcp
+    else:
+        return d2value
+"""
 
 #----------------------------------
 @app.callback(
